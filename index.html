@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="bn">
   <head>
     <meta charset="UTF-8" />
@@ -39,82 +39,48 @@
         align-items: center;
       }
 
-      /* --- Entry Screen Styles --- */
       #entry-screen {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: radial-gradient(circle, #fff1eb, #ace0f9);
+        background: linear-gradient(135deg, #fff1eb 0%, #ace0f9 100%);
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         z-index: 9999;
-        transition:
-          opacity 0.8s ease,
-          visibility 0.8s;
+        transition: 0.5s;
       }
 
       .gift-btn {
         background: white;
         border: none;
-        padding: 25px;
+        width: 100px;
+        height: 100px;
         border-radius: 50%;
-        box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
-        cursor: pointer;
-        animation: pulse 2s infinite;
         font-size: 50px;
+        cursor: pointer;
+        box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3);
+        animation: pulse 2s infinite;
         display: flex;
         justify-content: center;
         align-items: center;
-        transition: transform 0.3s ease;
-      }
-
-      .gift-btn:hover {
-        transform: scale(1.1);
-      }
-
-      .entry-text {
-        margin-top: 20px;
-        font-family: var(--font-bengali);
-        font-size: 1.5rem;
-        color: var(--primary-color);
-        font-weight: bold;
       }
 
       @keyframes pulse {
-        0% {
-          transform: scale(0.95);
-          box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7);
-        }
-        70% {
-          transform: scale(1.05);
-          box-shadow: 0 0 0 20px rgba(255, 107, 107, 0);
-        }
-        100% {
-          transform: scale(0.95);
-          box-shadow: 0 0 0 0 rgba(255, 107, 107, 0);
-        }
+        0% { transform: scale(0.95); }
+        70% { transform: scale(1.1); }
+        100% { transform: scale(0.95); }
       }
 
-      /* --- Main Wrapper (Initially Hidden) --- */
       .main-wrapper {
-        width: 90%;
-        max-width: 800px;
+        width: 90%; 
+        max-width: 800px; 
         margin: 40px auto;
         text-align: center;
-        display: none; /* JS will change this to block */
-        opacity: 0;
-        transform: translateY(50px);
-        transition: all 1s ease-out;
-      }
-
-      .main-wrapper.show {
-        display: block;
-        opacity: 1;
-        transform: translateY(0);
+        display: none; 
       }
 
       .wish-card {
@@ -125,6 +91,12 @@
         padding: 50px;
         border: 1px solid rgba(255, 255, 255, 0.2);
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        animation: cardAppear 1s ease-out;
+      }
+
+      @keyframes cardAppear {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
       }
 
       .pagli-img {
@@ -179,9 +151,7 @@
         font-family: var(--font-bengali);
       }
 
-      .surprise-btn:hover {
-        transform: translateY(-3px) scale(1.05);
-      }
+      .surprise-btn:hover { transform: translateY(-3px) scale(1.05); }
 
       .secret-gallery {
         display: none;
@@ -191,14 +161,7 @@
         animation: fadeInGallery 1.5s ease;
       }
 
-      @keyframes fadeInGallery {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
+      @keyframes fadeInGallery { from { opacity: 0; } to { opacity: 1; } }
 
       .gallery-title {
         font-family: var(--font-bengali);
@@ -222,12 +185,11 @@
         overflow: hidden;
       }
 
-      .photo-item:hover {
-        transform: scale(1.05) rotate(2deg);
-      }
+      .photo-item:hover { transform: scale(1.05) rotate(2deg); }
 
       .photo-item img {
         width: 100%;
+        object-fit: cover;
         border-radius: 10px;
       }
 
@@ -246,19 +208,27 @@
       }
 
       @media (max-width: 600px) {
+        .wish-card {
+          padding: 10px;
+        }
         h1 {
           font-size: 2.5rem;
         }
         .modern-description {
           font-size: 1.1rem;
         }
+        .pagli-img {
+          width: 200px;
+          height: 200px;
+        }
       }
     </style>
   </head>
   <body>
+
     <div id="entry-screen">
-      <button class="gift-btn" onclick="openGift()">🎁</button>
-      <p class="entry-text">পাগলী, তোমার জন্য একটা উপহার আছে!</p>
+        <button class="gift-btn" onclick="revealBirthday()">🎁</button>
+        <p style="margin-top:15px; font-family:var(--font-bengali); color:var(--primary-color);">পাগলী, তোমার জন্য একটা উপহার আছে! ক্লিক করো</p>
     </div>
 
     <div class="main-wrapper" id="mainWrapper">
@@ -271,21 +241,16 @@
           পাগলী আমার, <br />
           তোমার এই বিশেষ দিনে শুধু এটুকুই বলতে চাই—জীবনটা অনেক অগোছালো ছিল,
           কিন্তু তুমি আসার পর সবকিছু কেমন সুন্দর হয়ে গেল।
-          <span class="highlight">তুমি সবসময় আমার পাশে থাকো</span>, আমার
-          হাজারটা পাগলামি সহ্য করো। তোমার হাসিতেই আমার দিন শুরু। ভগবান তোমাকে
-          আজীবন এইভাবেই হাসিখুশি রাখুক। <br /><br />
-          আমি সবসময় তোমার পাশে আছি, আজ, কাল, আর সারাজীবন যত ঝড়ই আসুক, আমরা
-          একসাথেই সব সামলাবো। 😊
+          <span class="highlight">তুমি সবসময় আমার পাশে থাকো</span>, আমার হাজারটা
+          পাগলামি সহ্য করো, এর চেয়ে বড় উপহার আমার কাছে আর কিছু নেই। তোমার
+          হাসিতেই আমার দিন শুরু। ভগবান তোমাকে আজীবন এইভাবেই হাসিখুশি রাখুক।
+          <br /><br />
+          তুমি সারাজীবন এমনই হাসিখুশি থেকো, কারণ তোমার হাসিই আমার পৃথিবীকে
+          সুন্দর করে তোলে। 😊 আমি সবসময় তোমার পাশে আছি, আজ, কাল, আর সারাজীবন যত
+          ঝড়ই আসুক, আমরা একসাথেই সব সামলাবো।
         </div>
 
-        <p
-          style="
-            margin-bottom: 20px;
-            font-weight: bold;
-            color: var(--primary-color);
-            font-family: var(--font-bengali);
-          "
-        >
+        <p style="margin-bottom: 10px; font-weight: bold; color: var(--primary-color); font-family: var(--font-bengali);">
           ইতি— তোমার <span style="font-size: 1.2em">পাগলা</span>
         </p>
 
@@ -296,92 +261,53 @@
         <div class="secret-gallery" id="secretGallery">
           <h2 class="gallery-title">তোমার পাগলা সবসময় তোমার সাথে আছে... 😍</h2>
           <div class="photo-grid">
-            <div class="photo-item">
-              <img src="1.jpeg" />
-              <p class="photo-caption">তুমি সবসময় এই ভাবে থাকো...</p>
-            </div>
-            <div class="photo-item">
-              <img src="2.jpeg" />
-              <p class="photo-caption">সব ঝামেলায় আমি পাশে আছি।</p>
-            </div>
-            <div class="photo-item">
-              <img src="3.jpeg" />
-              <p class="photo-caption">আজীবন আমরা হাতটা ধরে রাখব।</p>
-            </div>
-            <div class="photo-item">
-              <img src="4.jpeg" />
-              <p class="photo-caption">তুমি খুব ভালো মেয়ে</p>
-            </div>
-            <div class="photo-item">
-              <img src="5.jpeg" />
-              <p class="photo-caption">তুমি আমায় ছেড়ে যেও না</p>
-            </div>
-            <div class="photo-item">
-              <img src="6.jpeg" />
-              <p class="photo-caption">
-                মুনমুনি আমার পাগলী সব সময় হাসি খুশি থাকবে
-              </p>
-            </div>
+            <div class="photo-item"><img src="1.jpeg" /><p class="photo-caption">তুমি সবসময় এই ভাবে থাকো...</p></div>
+            <div class="photo-item"><img src="2.jpeg" /><p class="photo-caption">সব ঝামেলায় আমি পাশে আছি।</p></div>
+            <div class="photo-item"><img src="3.jpeg" /><p class="photo-caption">আজীবন আমরা হাতটা ধরে রাখ।</p></div>
+            <div class="photo-item"><img src="4.jpeg" /><p class="photo-caption">তুমি খুব ভালো মেয়ে</p></div>
+            <div class="photo-item"><img src="5.jpeg" /><p class="photo-caption">তুমি আমায় ছেড়ে যেও না</p></div>
+            <div class="photo-item"><img src="6.jpeg" /><p class="photo-caption">মুনমুনি আমরা পাগলী সব সময় হাসি খুসি থাকবে</p></div>
           </div>
         </div>
 
-        <footer>Made with ❤️ by Pritam</footer>
+        <footer>Made by Pritam</footer>
       </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
     <script>
-      // Function to open the gift (Main Transition)
-      function openGift() {
-        const entry = document.getElementById("entry-screen");
-        const main = document.getElementById("mainWrapper");
-
-        entry.style.opacity = "0";
-        entry.style.visibility = "hidden";
-
-        setTimeout(() => {
-          main.style.display = "block";
-          // Force reflow
-          main.offsetHeight;
-          main.classList.add("show");
-
-          // Initial small confetti burst when it opens
-          confetti({
-            particleCount: 100,
-            spread: 70,
-            origin: { y: 0.6 },
-          });
-        }, 800);
+      function revealBirthday() {
+        document.getElementById('entry-screen').style.display = 'none';
+        document.getElementById('mainWrapper').style.display = 'block';
+        
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
       }
 
-      // Existing Surprise Function
       function showSurprise() {
         var duration = 3 * 1000;
         var animationEnd = Date.now() + duration;
         var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
 
-        function randomInRange(min, max) {
-          return Math.random() * (max - min) + min;
-        }
+        function randomInRange(min, max) { return Math.random() * (max - min) + min; }
 
         var interval = setInterval(function () {
           var timeLeft = animationEnd - Date.now();
           if (timeLeft <= 0) return clearInterval(interval);
 
           var particleCount = 50 * (timeLeft / duration);
-          confetti(
-            Object.assign({}, defaults, {
-              particleCount,
-              origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-            }),
-          );
-          confetti(
-            Object.assign({}, defaults, {
-              particleCount,
-              origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-            }),
-          );
+          confetti(Object.assign({}, defaults, {
+            particleCount,
+            origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+          }));
+          confetti(Object.assign({}, defaults, {
+            particleCount,
+            origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+          }));
         }, 250);
 
         const gallery = document.getElementById("secretGallery");

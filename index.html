@@ -13,12 +13,12 @@
     <style>
       /* --- Basic Reset & Variables --- */
       :root {
-        --primary-color: #ff6b6b; /* Sweet Pink */
-        --secondary-color: #4ecdc4; /* Teal Blue */
+        --primary-color: #ff6b6b;
+        --secondary-color: #4ecdc4;
         --text-dark: #2d3436;
         --text-light: #fff;
         --font-main: "Poppins", sans-serif;
-        --font-bengali: "Atma", cursive; /* Playful Bengali Font */
+        --font-bengali: "Atma", cursive;
       }
 
       * {
@@ -39,12 +39,82 @@
         align-items: center;
       }
 
-      /* --- Main Container with Glassmorphism --- */
+      /* --- Entry Screen Styles --- */
+      #entry-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle, #fff1eb, #ace0f9);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition:
+          opacity 0.8s ease,
+          visibility 0.8s;
+      }
+
+      .gift-btn {
+        background: white;
+        border: none;
+        padding: 25px;
+        border-radius: 50%;
+        box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+        cursor: pointer;
+        animation: pulse 2s infinite;
+        font-size: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: transform 0.3s ease;
+      }
+
+      .gift-btn:hover {
+        transform: scale(1.1);
+      }
+
+      .entry-text {
+        margin-top: 20px;
+        font-family: var(--font-bengali);
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        font-weight: bold;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(0.95);
+          box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7);
+        }
+        70% {
+          transform: scale(1.05);
+          box-shadow: 0 0 0 20px rgba(255, 107, 107, 0);
+        }
+        100% {
+          transform: scale(0.95);
+          box-shadow: 0 0 0 0 rgba(255, 107, 107, 0);
+        }
+      }
+
+      /* --- Main Wrapper (Initially Hidden) --- */
       .main-wrapper {
         width: 90%;
         max-width: 800px;
         margin: 40px auto;
         text-align: center;
+        display: none; /* JS will change this to block */
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 1s ease-out;
+      }
+
+      .main-wrapper.show {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
       }
 
       .wish-card {
@@ -55,26 +125,12 @@
         padding: 50px;
         border: 1px solid rgba(255, 255, 255, 0.2);
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-        animation: cardAppear 1s ease-out;
       }
 
-      @keyframes cardAppear {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      /* --- Hero Section (Top) --- */
       .pagli-img {
         width: 200px;
         height: 200px;
         border-radius: 10%;
-        /* object-fit: cover; */
         border: 5px solid #fff;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         margin-bottom: 20px;
@@ -88,14 +144,6 @@
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
       }
 
-      .main-wish {
-        font-size: 1.2rem;
-        line-height: 1.8;
-        margin-bottom: 30px;
-        font-weight: 300;
-      }
-
-      /* --- The Modern Description (The key text) --- */
       .modern-description {
         font-family: var(--font-bengali);
         background: rgba(255, 255, 255, 0.6);
@@ -115,7 +163,6 @@
         font-weight: 700;
       }
 
-      /* --- Surprise Button --- */
       .surprise-btn {
         display: inline-block;
         padding: 15px 40px;
@@ -134,12 +181,10 @@
 
       .surprise-btn:hover {
         transform: translateY(-3px) scale(1.05);
-        box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6);
       }
 
-      /* --- Secret Gallery Section (Initially Hidden) --- */
       .secret-gallery {
-        display: none; /* JS will show this */
+        display: none;
         margin-top: 50px;
         padding-top: 40px;
         border-top: 2px dashed rgba(255, 107, 107, 0.3);
@@ -183,8 +228,6 @@
 
       .photo-item img {
         width: 100%;
-        /* height: 200px; */
-        object-fit: cover;
         border-radius: 10px;
       }
 
@@ -195,7 +238,6 @@
         font-style: italic;
       }
 
-      /* --- Footer --- */
       footer {
         margin-top: 30px;
         font-size: 0.9rem;
@@ -203,56 +245,42 @@
         font-family: var(--font-bengali);
       }
 
-      /* --- Responsive Queries --- */
       @media (max-width: 600px) {
-        .wish-card {
-          padding: 30px;
-        }
         h1 {
           font-size: 2.5rem;
         }
-        .main-wish {
-          font-size: 1rem;
-        }
         .modern-description {
           font-size: 1.1rem;
-        }
-        .pagli-img {
-          width: 200px;
-          height: 200px;
-          border-radius: 10%;
         }
       }
     </style>
   </head>
   <body>
-    <div class="main-wrapper">
+    <div id="entry-screen">
+      <button class="gift-btn" onclick="openGift()">🎁</button>
+      <p class="entry-text">পাগলী, তোমার জন্য একটা উপহার আছে!</p>
+    </div>
+
+    <div class="main-wrapper" id="mainWrapper">
       <div class="wish-card">
-        <img
-          src=" profile.jpeg"
-          alt="Happy Birthday Pagli"
-          class="pagli-img"
-        />
+        <img src="profile.jpeg" alt="Happy Birthday" class="pagli-img" />
 
         <h1>শুভ জন্মদিন, পাগলী!</h1>
 
         <div class="modern-description">
           পাগলী আমার, <br />
           তোমার এই বিশেষ দিনে শুধু এটুকুই বলতে চাই—জীবনটা অনেক অগোছালো ছিল,
-          কিন্তু তুমি আসার পর সবকিছু কেমন সুন্দর হয়ে গেল।
-          <span class="highlight">তুমি সবসময় আমার পাশে থাকো</span>, আমার হাজারটা
-          পাগলামি সহ্য করো, এর চেয়ে বড় উপহার আমার কাছে আর কিছু নেই। তোমার
-          হাসিতেই আমার দিন শুরু । ভগবান তোমাকে আজীবন এইভাবেই হাসিখুশি রাখুক।
-          <br /><br />
-
-          তুমি সারাজীবন এমনই হাসিখুশি থেকো, কারণ তোমার হাসিই আমার পৃথিবীকে
-          সুন্দর করে তোলে। 😊 আমি সবসময় তোমার পাশে আছি, আজ, কাল, আর সারাজীবন যত
-          ঝড়ই আসুক, আমরা একসাথেই সব সামলাবো।
+          কিন্তু তুমি আসার পর সবকিছু কেমন সুন্দর হয়ে গেল।
+          <span class="highlight">তুমি সবসময় আমার পাশে থাকো</span>, আমার
+          হাজারটা পাগলামি সহ্য করো। তোমার হাসিতেই আমার দিন শুরু। ভগবান তোমাকে
+          আজীবন এইভাবেই হাসিখুশি রাখুক। <br /><br />
+          আমি সবসময় তোমার পাশে আছি, আজ, কাল, আর সারাজীবন যত ঝড়ই আসুক, আমরা
+          একসাথেই সব সামলাবো। 😊
         </div>
 
         <p
           style="
-            margin-bottom: 10px;
+            margin-bottom: 20px;
             font-weight: bold;
             color: var(--primary-color);
             font-family: var(--font-bengali);
@@ -267,46 +295,68 @@
 
         <div class="secret-gallery" id="secretGallery">
           <h2 class="gallery-title">তোমার পাগলা সবসময় তোমার সাথে আছে... 😍</h2>
-
           <div class="photo-grid">
             <div class="photo-item">
-              <img src=" 1.jpeg" alt="Pagla Photo 1" />
+              <img src="1.jpeg" />
               <p class="photo-caption">তুমি সবসময় এই ভাবে থাকো...</p>
             </div>
             <div class="photo-item">
-              <img src=" 2.jpeg" alt="Pagla Photo 2" />
+              <img src="2.jpeg" />
               <p class="photo-caption">সব ঝামেলায় আমি পাশে আছি।</p>
             </div>
             <div class="photo-item">
-              <img src=" 3.jpeg" alt="Pagla Photo 3" />
-              <p class="photo-caption">আজীবন আমরা হাতটা ধরে রাখ।</p>
+              <img src="3.jpeg" />
+              <p class="photo-caption">আজীবন আমরা হাতটা ধরে রাখব।</p>
             </div>
             <div class="photo-item">
-              <img src=" 4.jpeg" alt="Pagla Photo 4" />
+              <img src="4.jpeg" />
               <p class="photo-caption">তুমি খুব ভালো মেয়ে</p>
             </div>
             <div class="photo-item">
-              <img src=" 5.jpeg" alt="Pagla Photo 4" />
+              <img src="5.jpeg" />
               <p class="photo-caption">তুমি আমায় ছেড়ে যেও না</p>
             </div>
             <div class="photo-item">
-              <img src=" 6.jpeg" alt="Pagla Photo 4" />
+              <img src="6.jpeg" />
               <p class="photo-caption">
-                মুনমুনি আমরা পাগলী সব সময় হাসি খুসি থাকবে
+                মুনমুনি আমার পাগলী সব সময় হাসি খুশি থাকবে
               </p>
             </div>
           </div>
         </div>
 
-        <footer>Made by Pritam</footer>
+        <footer>Made with ❤️ by Pritam</footer>
       </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
     <script>
+      // Function to open the gift (Main Transition)
+      function openGift() {
+        const entry = document.getElementById("entry-screen");
+        const main = document.getElementById("mainWrapper");
+
+        entry.style.opacity = "0";
+        entry.style.visibility = "hidden";
+
+        setTimeout(() => {
+          main.style.display = "block";
+          // Force reflow
+          main.offsetHeight;
+          main.classList.add("show");
+
+          // Initial small confetti burst when it opens
+          confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+          });
+        }, 800);
+      }
+
+      // Existing Surprise Function
       function showSurprise() {
-        // 1. Confetti effect (Modern & Beautiful)
         var duration = 3 * 1000;
         var animationEnd = Date.now() + duration;
         var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
@@ -317,13 +367,9 @@
 
         var interval = setInterval(function () {
           var timeLeft = animationEnd - Date.now();
-
-          if (timeLeft <= 0) {
-            return clearInterval(interval);
-          }
+          if (timeLeft <= 0) return clearInterval(interval);
 
           var particleCount = 50 * (timeLeft / duration);
-          // since particles fall down, start a bit higher than random
           confetti(
             Object.assign({}, defaults, {
               particleCount,
@@ -338,21 +384,17 @@
           );
         }, 250);
 
-        // 2. Show the Gallery
         const gallery = document.getElementById("secretGallery");
         const btn = document.getElementById("surpriseBtn");
+        gallery.style.display = "block";
 
-        gallery.style.display = "block"; // Reveal gallery
-
-        // 3. Smooth scroll to gallery
         setTimeout(() => {
           gallery.scrollIntoView({ behavior: "smooth" });
         }, 500);
 
-        // 4. Update button text
         btn.innerHTML = "SURPRISE! 🎉";
         btn.style.background = "linear-gradient(45deg, #4ecdc4, #55efc4)";
-        btn.disabled = true; // Disable button after click
+        btn.disabled = true;
       }
     </script>
   </body>
